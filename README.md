@@ -54,6 +54,17 @@ DRY_RUN=1 explanation=phishing user_email=you@example.com \
   ./scripts/submit.sh "https://www.dropbox.com/scl/fi/…"
 ```
 
+## Publishing a release
+
+```bash
+bash make_release.sh 1.2.0
+```
+
+This bumps the version in `info.plist`, builds
+`dist/Dropbox-Abuse-Report-v1.2.0.alfredworkflow` plus a `.sha256` checksum,
+and prints the exact `git commit`/`push` and `gh release create --generate-notes`
+commands to run by hand. It does not commit, tag, or publish anything itself.
+
 ## License
 
 MIT — see [`LICENSE`](LICENSE).

@@ -61,6 +61,10 @@ not guess.
   token creates a real report. Use `DRY_RUN=1`, or the known-403 path (a
   deliberately wrong `t`), to exercise the request.
 - Repackage with `./build.sh` after any change to shipped files.
+- Cut a release with `bash make_release.sh x.y.z` — it bumps `info.plist`'s
+  version, builds the versioned `.alfredworkflow` + checksum in `dist/`, and
+  prints the commit/push/`gh release create` commands to run manually. It never
+  commits, tags, or publishes on its own.
 
 ## Files
 
@@ -68,3 +72,5 @@ not guess.
 - `scripts/submit.sh` — performs the GET-token-then-POST report request.
 - `info.plist` — Alfred workflow definition (objects, connections, config).
 - `build.sh` — zips the workflow into `dist/*.alfredworkflow`.
+- `make_release.sh` — bumps the version, builds the versioned artifact +
+  checksum, and prints the release commands to run manually.
