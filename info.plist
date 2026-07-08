@@ -8,11 +8,11 @@
 	<string>Tools</string>
 	<key>connections</key>
 	<dict>
-		<key>E0B33739-7003-4ECF-AB36-511CC4DC0DC0</key>
+		<key>CF929DF1-567E-46EF-A245-D2244FDBA5BC</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>CF929DF1-567E-46EF-A245-D2244FDBA5BC</string>
+				<string>CB8666AF-6842-41B4-84A2-4DCCA26A7EA7</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -21,11 +21,11 @@
 				<false/>
 			</dict>
 		</array>
-		<key>CF929DF1-567E-46EF-A245-D2244FDBA5BC</key>
+		<key>E0B33739-7003-4ECF-AB36-511CC4DC0DC0</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>CB8666AF-6842-41B4-84A2-4DCCA26A7EA7</string>
+				<string>CF929DF1-567E-46EF-A245-D2244FDBA5BC</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -157,10 +157,10 @@ How it works
   back in the `t` field. No login or API key is required.</string>
 	<key>uidata</key>
 	<dict>
-		<key>E0B33739-7003-4ECF-AB36-511CC4DC0DC0</key>
+		<key>CB8666AF-6842-41B4-84A2-4DCCA26A7EA7</key>
 		<dict>
 			<key>xpos</key>
-			<real>110</real>
+			<real>610</real>
 			<key>ypos</key>
 			<real>110</real>
 		</dict>
@@ -171,10 +171,10 @@ How it works
 			<key>ypos</key>
 			<real>110</real>
 		</dict>
-		<key>CB8666AF-6842-41B4-84A2-4DCCA26A7EA7</key>
+		<key>E0B33739-7003-4ECF-AB36-511CC4DC0DC0</key>
 		<dict>
 			<key>xpos</key>
-			<real>610</real>
+			<real>110</real>
 			<key>ypos</key>
 			<real>110</real>
 		</dict>
@@ -227,7 +227,7 @@ How it works
 	<key>variablesdontexport</key>
 	<array/>
 	<key>version</key>
-	<string>1.0.0</string>
+	<string>1.1.0</string>
 	<key>webaddress</key>
 	<string>https://github.com/iwan-uschka/alfred-workflow-dropbox-abuse-report</string>
 </dict>
