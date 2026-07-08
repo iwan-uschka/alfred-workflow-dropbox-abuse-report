@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>com.creativytool.alfred.dropbox-abuse-report</string>
+	<key>category</key>
+	<string>Tools</string>
+	<key>connections</key>
+	<dict>
+		<key>E0B33739-7003-4ECF-AB36-511CC4DC0DC0</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>CF929DF1-567E-46EF-A245-D2244FDBA5BC</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>CF929DF1-567E-46EF-A245-D2244FDBA5BC</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>CB8666AF-6842-41B4-84A2-4DCCA26A7EA7</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>Christoph Wanja</string>
+	<key>description</key>
+	<string>Report Dropbox spam, abuse, and phishing links straight from Alfred.</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>Dropbox Abuse Report</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>report-abuse</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Preparing report…</string>
+				<key>script</key>
+				<string>./scripts/filter.sh "{query}"</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Paste a Dropbox link, then choose a category</string>
+				<key>title</key>
+				<string>Report a Dropbox link</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>E0B33739-7003-4ECF-AB36-511CC4DC0DC0</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>./scripts/submit.sh "{query}"</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>CF929DF1-567E-46EF-A245-D2244FDBA5BC</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<true/>
+				<key>text</key>
+				<string>{query}</string>
+				<key>title</key>
+				<string>Dropbox Abuse Report</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>CB8666AF-6842-41B4-84A2-4DCCA26A7EA7</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string>Report Dropbox spam / fraud / phishing links without logging in.
+
+Setup
+  Open the workflow's Configuration and set "Your email" (required) and,
+  optionally, "Your name". These are sent as the reporter details on the
+  Dropbox abuse form.
+
+Usage
+  1. Trigger Alfred and type:  report-abuse &lt;dropbox-link&gt;
+  2. Choose a category: phishing, fraud, or abuse.
+  3. Press Enter. A notification confirms whether Dropbox accepted the report.
+
+How it works
+  Dropbox's public report form (dropbox.com/report_abuse/submit) uses a
+  double-submit-cookie CSRF check. The workflow first GETs a Dropbox page to
+  obtain the __Host-js_csrf cookie, then POSTs the report echoing that value
+  back in the `t` field. No login or API key is required.</string>
+	<key>uidata</key>
+	<dict>
+		<key>E0B33739-7003-4ECF-AB36-511CC4DC0DC0</key>
+		<dict>
+			<key>xpos</key>
+			<real>110</real>
+			<key>ypos</key>
+			<real>110</real>
+		</dict>
+		<key>CF929DF1-567E-46EF-A245-D2244FDBA5BC</key>
+		<dict>
+			<key>xpos</key>
+			<real>360</real>
+			<key>ypos</key>
+			<real>110</real>
+		</dict>
+		<key>CB8666AF-6842-41B4-84A2-4DCCA26A7EA7</key>
+		<dict>
+			<key>xpos</key>
+			<real>610</real>
+			<key>ypos</key>
+			<real>110</real>
+		</dict>
+	</dict>
+	<key>userconfigurationconfig</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<string></string>
+				<key>placeholder</key>
+				<string>you@example.com</string>
+				<key>required</key>
+				<true/>
+				<key>trim</key>
+				<true/>
+			</dict>
+			<key>description</key>
+			<string>Sent as the reporter email address on the Dropbox abuse form.</string>
+			<key>label</key>
+			<string>Your email</string>
+			<key>type</key>
+			<string>textfield</string>
+			<key>variable</key>
+			<string>user_email</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<string></string>
+				<key>placeholder</key>
+				<string>Your Name</string>
+				<key>required</key>
+				<false/>
+				<key>trim</key>
+				<true/>
+			</dict>
+			<key>description</key>
+			<string>Optional. Sent as the reporter name on the Dropbox abuse form.</string>
+			<key>label</key>
+			<string>Your name</string>
+			<key>type</key>
+			<string>textfield</string>
+			<key>variable</key>
+			<string>user_name</string>
+		</dict>
+	</array>
+	<key>variablesdontexport</key>
+	<array/>
+	<key>version</key>
+	<string>1.0.0</string>
+	<key>webaddress</key>
+	<string>https://github.com/creativytool/alfred-workflow-dropbox-abuse-report</string>
+</dict>
+</plist>
