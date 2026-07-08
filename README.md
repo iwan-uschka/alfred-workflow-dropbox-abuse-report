@@ -18,10 +18,10 @@ It drives Dropbox's public abuse form at
 ## Usage
 
 ```
-report-abuse <dropbox-link>
+dropbox-report-abuse <dropbox-link>
 ```
 
-1. Trigger Alfred and type `report-abuse` followed by the Dropbox link.
+1. Trigger Alfred and type `dropbox-report-abuse` followed by the Dropbox link.
 2. Pick a category: **phishing**, **fraud**, or **abuse**.
 3. Press <kbd>Enter</kbd>. A notification confirms whether Dropbox accepted the
    report.

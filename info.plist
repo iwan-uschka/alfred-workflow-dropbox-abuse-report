@@ -61,7 +61,7 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>keyword</key>
-				<string>report-abuse</string>
+				<string>dropbox-report-abuse</string>
 				<key>queuedelaycustom</key>
 				<integer>3</integer>
 				<key>queuedelayimmediatelyinitially</key>
@@ -146,7 +146,7 @@ Setup
   Dropbox abuse form.
 
 Usage
-  1. Trigger Alfred and type:  report-abuse &lt;dropbox-link&gt;
+  1. Trigger Alfred and type:  dropbox-report-abuse &lt;dropbox-link&gt;
   2. Choose a category: phishing, fraud, or abuse.
   3. Press Enter. A notification confirms whether Dropbox accepted the report.
 
@@ -229,6 +229,6 @@ How it works
 	<key>version</key>
 	<string>1.0.0</string>
 	<key>webaddress</key>
-	<string>https://github.com/creativytool/alfred-workflow-dropbox-abuse-report</string>
+	<string>https://github.com/iwan-uschka/alfred-workflow-dropbox-abuse-report</string>
 </dict>
 </plist>

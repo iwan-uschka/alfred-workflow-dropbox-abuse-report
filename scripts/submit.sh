@@ -35,7 +35,8 @@ if [[ -z "$EMAIL" ]]; then
 fi
 
 JAR="$(mktemp -t dbxabuse)"
-trap 'rm -f "$JAR"' EXIT
+RESP="$(mktemp -t dbxabuse_resp)"
+trap 'rm -f "$JAR" "$RESP"' EXIT
 
 # 1. Obtain the CSRF cookie.
 if ! curl -fsS -c "$JAR" -A "$UA" "$FORM_PAGE" -o /dev/null; then
@@ -54,8 +55,17 @@ if [[ "${DRY_RUN:-}" == "1" ]]; then
   exit 0
 fi
 
+# XHR endpoints can answer HTTP 200 yet carry an error in the JSON body. We
+# have no captured success body to compare against (getting one would file a
+# real report), so this is a conservative heuristic: flag bodies that
+# explicitly declare an error ("error": true/"…"/{…}/1, "status": "error"),
+# but stay quiet on "error": false/null/0/"".
+looks_like_error() {
+  grep -Eqi '"(err|error)"[[:space:]]*:[[:space:]]*(true|"[^"]|\{|[1-9])|"status"[[:space:]]*:[[:space:]]*"(error|fail)' "$1"
+}
+
 # 2. POST the report, echoing the CSRF token back in `t` and as a cookie.
-CODE="$(curl -sS -o /dev/null -w '%{http_code}' \
+CODE="$(curl -sS -o "$RESP" -w '%{http_code}' \
   -b "$JAR" -b "t=$CSRF" -A "$UA" \
   -H 'X-Requested-With: XMLHttpRequest' \
   -H 'Origin: https://www.dropbox.com' \
@@ -72,9 +82,14 @@ CODE="$(curl -sS -o /dev/null -w '%{http_code}' \
   --data-urlencode 'harmful_content_reporter_relationship=0' \
   "$SUBMIT_URL")"
 
-if [[ "$CODE" == "200" ]]; then
+if [[ "$CODE" == "200" ]] && ! looks_like_error "$RESP"; then
   echo "✅ Reported to Dropbox as $EXPLANATION"
 else
-  echo "❌ Dropbox rejected the report (HTTP $CODE)"
+  SNIPPET="$(tr -d '\r\n' < "$RESP" | cut -c1-120)"
+  if [[ "$CODE" == "200" ]]; then
+    echo "❌ Dropbox answered 200 but reported an error: $SNIPPET"
+  else
+    echo "❌ Dropbox rejected the report (HTTP $CODE)"
+  fi
   exit 1
 fi

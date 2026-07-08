@@ -8,7 +8,7 @@ An Alfred 5 workflow that submits reports to Dropbox's public, no-login abuse
 form. Two Bash scripts do the work; `info.plist` wires them into Alfred.
 
 ```
-report-abuse <url>  →  Script Filter (filter.sh)  →  Run Script (submit.sh)  →  Notification
+dropbox-report-abuse <url>  →  Script Filter (filter.sh)  →  Run Script (submit.sh)  →  Notification
 ```
 
 ## The Dropbox endpoint (important, non-obvious)
@@ -50,6 +50,8 @@ not guess.
 
 - Keep workflow logic in `scripts/*.sh` as plain, testable Bash. Do not inline
   logic into `info.plist` — the plist only calls `./scripts/*.sh "{query}"`.
+- After editing any shell script, lint it: `shellcheck scripts/*.sh build.sh`
+  (CI runs the same check).
 - After editing `info.plist`, validate it: `plutil -lint info.plist`.
 - After editing `filter.sh`, validate its JSON:
   `./scripts/filter.sh "https://x?a&b" | python3 -m json.tool`.
