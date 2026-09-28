@@ -1,4 +1,4 @@
-name: shellcheck
+name: ci
 
 on:
   push:
@@ -18,4 +18,4 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
-      - run: npx --yes bats@1 test/
+      - run: npx --yes bats@1.13.0 test/

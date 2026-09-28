@@ -53,7 +53,8 @@ not guess.
 - After editing any shell script, lint it:
   `shellcheck scripts/*.sh build.sh make_release.sh test/*.bats test/helpers/*.bash`
   (CI runs the same check).
-- Run the automated tests after any change to `scripts/submit.sh`:
+- Run the automated tests after any change to `scripts/submit.sh` or anything
+  under `test/`:
   `bats test/` (install with `brew install bats-core`), or without installing
   anything: `npx --yes bats@1 test/`. CI runs them on macOS (`submit.sh` uses
   BSD `mktemp -t`, which GNU `mktemp` rejects).

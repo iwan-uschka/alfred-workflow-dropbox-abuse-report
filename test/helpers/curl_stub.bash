@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # Fake `curl` for exercising scripts/submit.sh without touching the network.
 #
 # Defined as a shell function and exported (`export -f curl`), so the bash
@@ -39,10 +40,10 @@ curl() {
         echo "curl: (6) Could not resolve host: www.dropbox.com" >&2
         return 6
       fi
-      cp "$STUB_JAR" "$jar"
+      cp "$STUB_JAR" "$jar" || { echo "curl stub: could not copy STUB_JAR '$STUB_JAR'" >&2; return 1; }
       ;;
     */report_abuse/submit)
-      cp "$STUB_POST_BODY" "$out"
+      cp "$STUB_POST_BODY" "$out" || { echo "curl stub: could not copy STUB_POST_BODY '$STUB_POST_BODY'" >&2; return 1; }
       [[ -n "$write_out" ]] && printf '%s' "$STUB_POST_CODE"
       ;;
     *)

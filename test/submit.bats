@@ -119,6 +119,26 @@ post_count() {
   [ "$output" = "✅ Reported to Dropbox as phishing" ]
 }
 
+# breaks-if: looks_like_error stops matching a bare `"error": true` value
+@test "HTTP 200 with \"error\": true body is reported as a failure" {
+  export STUB_POST_BODY="$FIXTURES/body_error_true.json"
+  run_submit
+  [ "$status" -eq 1 ]
+}
+
+# breaks-if: submit.sh's SNIPPET truncation (`cut -c1-120`) is widened, narrowed, or removed
+@test "HTTP 200 error body longer than 120 chars is truncated in the message" {
+  export STUB_POST_BODY="$FIXTURES/body_error_long.json"
+  run_submit
+  [ "$status" -eq 1 ]
+  local full_body expected_snippet
+  full_body="$(tr -d '\r\n' < "$STUB_POST_BODY")"
+  expected_snippet="$(cut -c1-120 <<<"$full_body")"
+  [ "${#full_body}" -gt 120 ]
+  [[ "$output" == *"$expected_snippet"* ]] || false
+  [[ "$output" != *"${full_body:120}"* ]] || false
+}
+
 # breaks-if: submit.sh treats any non-error body as success without checking the HTTP code is 200
 @test "HTTP 403 (CSRF mismatch) is reported as a rejection with the status code" {
   export STUB_POST_CODE="403"
@@ -137,4 +157,12 @@ post_count() {
   [ "$status" -eq 0 ]
   [[ "$output" == "DRY_RUN: would report 'https://www.dropbox.com/scl/fi/abc/phish.html' as 'phishing' (token=TESTTO…"* ]] || false
   [ "$(post_count)" -eq 0 ]
+}
+
+# --- curl stub sanity ---------------------------------------------------
+
+# breaks-if: the stub's URL-matching (`*/get_help/*`, `*/report_abuse/submit`) stops matching submit.sh's actual request URLs
+@test "curl stub: an unrecognized URL fails loudly instead of silently succeeding" {
+  run bash -c 'source "'"$BATS_TEST_DIRNAME"'/helpers/curl_stub.bash"; export -f curl; curl https://example.com/unexpected'
+  [ "$status" -eq 99 ]
 }
