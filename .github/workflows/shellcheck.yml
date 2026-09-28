@@ -10,4 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: shellcheck scripts/*.sh build.sh make_release.sh
+      - run: shellcheck scripts/*.sh build.sh make_release.sh test/*.bats test/helpers/*.bash
+
+  bats:
+    # macOS, not Linux: submit.sh uses BSD `mktemp -t <prefix>`, which GNU
+    # mktemp rejects, and the workflow only ever runs on macOS anyway.
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npx --yes bats@1 test/

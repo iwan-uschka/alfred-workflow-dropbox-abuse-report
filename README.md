@@ -54,6 +54,15 @@ DRY_RUN=1 explanation=phishing user_email=you@example.com \
   ./scripts/submit.sh "https://www.dropbox.com/scl/fi/…"
 ```
 
+Run the automated tests (network-free — `curl` is stubbed, so no report is
+ever filed) with [bats-core](https://github.com/bats-core/bats-core):
+
+```bash
+brew install bats-core && bats test/
+# or, without installing anything:
+npx --yes bats@1 test/
+```
+
 ## Publishing a release
 
 ```bash

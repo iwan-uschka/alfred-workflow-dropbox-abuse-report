@@ -50,8 +50,20 @@ not guess.
 
 - Keep workflow logic in `scripts/*.sh` as plain, testable Bash. Do not inline
   logic into `info.plist` — the plist only calls `./scripts/*.sh "{query}"`.
-- After editing any shell script, lint it: `shellcheck scripts/*.sh build.sh`
+- After editing any shell script, lint it:
+  `shellcheck scripts/*.sh build.sh make_release.sh test/*.bats test/helpers/*.bash`
   (CI runs the same check).
+- Run the automated tests after any change to `scripts/submit.sh`:
+  `bats test/` (install with `brew install bats-core`), or without installing
+  anything: `npx --yes bats@1 test/`. CI runs them on macOS (`submit.sh` uses
+  BSD `mktemp -t`, which GNU `mktemp` rejects).
+- The tests never touch the network: `test/helpers/curl_stub.bash` replaces
+  `curl` with an exported shell function driven by `STUB_*` variables and
+  fixtures in `test/fixtures/`. Every failure-path test carries a
+  `# breaks-if:` comment naming the source change it catches.
+- In `.bats` files, write `[[ ... ]] || false`, not a bare `[[ ... ]]`: on
+  bash < 4.1 (macOS `/bin/bash` is 3.2) a failing `[[ ]]` that is not the
+  last line of a test does not fail the test.
 - After editing `info.plist`, validate it: `plutil -lint info.plist`.
 - After editing `filter.sh`, validate its JSON:
   `./scripts/filter.sh "https://x?a&b" | python3 -m json.tool`.
@@ -74,3 +86,7 @@ not guess.
 - `build.sh` — zips the workflow into `dist/*.alfredworkflow`.
 - `make_release.sh` — bumps the version, builds the versioned artifact +
   checksum, and prints the release commands to run manually.
+- `test/submit.bats` — bats-core tests for `submit.sh` (input guards, cookie
+  GET failure, CSRF extraction, response classification, `DRY_RUN`).
+- `test/helpers/curl_stub.bash` — network-free `curl` replacement for tests.
+- `test/fixtures/` — cookie-jar and response-body fixtures.
