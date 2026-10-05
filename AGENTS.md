@@ -43,13 +43,13 @@ category from the human-readable `explanation`. The numeric mapping is not
 exposed in the form's static HTML (the page is a JS app), so it is not
 reverse-engineered here; `2` is the value from a known-good captured request.
 The user-facing category selection drives `explanation` only. If you need to
-vary `abuse_category`, capture the real values from the live form first — do
+vary `abuse_category`, capture the real values from the live form first. Do
 not guess.
 
 ## Conventions
 
 - Keep workflow logic in `scripts/*.sh` as plain, testable Bash. Do not inline
-  logic into `info.plist` — the plist only calls `./scripts/*.sh "{query}"`.
+  logic into `info.plist`. The plist only calls `./scripts/*.sh "{query}"`.
 - After editing any shell script, lint it:
   `shellcheck scripts/*.sh build.sh make_release.sh test/*.bats test/helpers/*.bash`
   (CI runs the same check).
@@ -74,20 +74,21 @@ not guess.
   token creates a real report. Use `DRY_RUN=1`, or the known-403 path (a
   deliberately wrong `t`), to exercise the request.
 - Repackage with `./build.sh` after any change to shipped files.
-- Cut a release with `bash make_release.sh x.y.z` — it bumps `info.plist`'s
+- Cut a release with `bash make_release.sh x.y.z`. It bumps `info.plist`'s
   version, builds the versioned `.alfredworkflow` + checksum in `dist/`, and
   prints the commit/push/`gh release create` commands to run manually. It never
   commits, tags, or publishes on its own.
 
 ## Files
 
-- `scripts/filter.sh` — Alfred Script Filter; emits the three category items.
-- `scripts/submit.sh` — performs the GET-token-then-POST report request.
-- `info.plist` — Alfred workflow definition (objects, connections, config).
-- `build.sh` — zips the workflow into `dist/*.alfredworkflow`.
-- `make_release.sh` — bumps the version, builds the versioned artifact +
+- `scripts/filter.sh` is the Alfred Script Filter and emits the three category
+  items.
+- `scripts/submit.sh` performs the GET-token-then-POST report request.
+- `info.plist` is the Alfred workflow definition (objects, connections, config).
+- `build.sh` zips the workflow into `dist/*.alfredworkflow`.
+- `make_release.sh` bumps the version, builds the versioned artifact +
   checksum, and prints the release commands to run manually.
-- `test/submit.bats` — bats-core tests for `submit.sh` (input guards, cookie
+- `test/submit.bats` holds bats-core tests for `submit.sh` (input guards, cookie
   GET failure, CSRF extraction, response classification, `DRY_RUN`).
-- `test/helpers/curl_stub.bash` — network-free `curl` replacement for tests.
-- `test/fixtures/` — cookie-jar and response-body fixtures.
+- `test/helpers/curl_stub.bash` is a network-free `curl` replacement for tests.
+- `test/fixtures/` holds cookie-jar and response-body fixtures.
